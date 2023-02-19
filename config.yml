@@ -8,3 +8,10 @@ docker_database:
 
 current_db:
   RUNNING: docker_database
+
+
+jwt:
+  TOKEN_EXPIRED_IN: 3600
+  TOKEN_MAXAGE: 3600
+  TOKEN_SECRET: "event_bright"
+

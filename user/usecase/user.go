@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"github.com/event_bright/domain"
+	"github.com/event_bright/domain/dto"
 )
 
 // New return new usecase for user
@@ -18,4 +19,8 @@ type AuthUseCase struct {
 
 func (a *AuthUseCase) User(ctx context.Context, ctr *domain.User) string {
 	return a.repo.User(ctx, ctr)
+}
+
+func (a *AuthUseCase) SignIn(ctx context.Context, ctr *dto.SignIn) (*dto.JWTToken, error) {
+	return a.repo.SignIn(ctx, ctr)
 }

@@ -15,9 +15,10 @@ type User struct {
 
 type AuthRepository interface {
 	User(ctx context.Context, ctr *User) string
-	SignIn(ctx context.Context, ctr *dto.SignIn)
+	SignIn(ctx context.Context, ctr *dto.SignIn) (*dto.JWTToken, error)
 }
 
 type AuthUseCase interface {
 	User(ctx context.Context, ctr *User) string
+	SignIn(ctx context.Context, ctr *dto.SignIn) (*dto.JWTToken, error)
 }
