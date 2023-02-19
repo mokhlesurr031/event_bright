@@ -63,7 +63,7 @@ func (a *AuthSqlStorage) User(ctx context.Context, ctr *domain.User) string {
 	return "success"
 }
 
-func (a *AuthSqlStorage) SignIn(ctx context.Context, ctr *dto.SignIn) (*dto.JWTToken, error) {
+func (a *AuthSqlStorage) SignIn(ctx context.Context, ctr *dto.SignIn) (*domain.JWTToken, error) {
 	qry := a.db
 	jwt := config.JWT()
 	user := domain.User{}
@@ -75,12 +75,12 @@ func (a *AuthSqlStorage) SignIn(ctx context.Context, ctr *dto.SignIn) (*dto.JWTT
 			log.Println(err)
 		}
 		if cred.Email == "" {
-			reqJwt := &dto.JWTToken{Message: "invalid data"}
+			reqJwt := &domain.JWTToken{Message: "invalid data"}
 			return reqJwt, nil
 		}
 
 		if err := utils.VerifyPassword(cred.Password, ctr.Password); err != nil {
-			reqJwt := &dto.JWTToken{Message: "invalid password"}
+			reqJwt := &domain.JWTToken{Message: "invalid password"}
 			return reqJwt, err
 		}
 
@@ -89,16 +89,16 @@ func (a *AuthSqlStorage) SignIn(ctx context.Context, ctr *dto.SignIn) (*dto.JWTT
 			log.Println(err)
 		}
 
-		loggedInData := &dto.LoggerInUserData{}
+		loggedInData := &domain.LoggerInUserData{}
 		loggedInData.Name = user.Name
 		loggedInData.Email = user.Email
 		loggedInData.ID = user.ID
 
-		reqJwt := &dto.JWTToken{User: loggedInData, Secret: token, MaxAge: jwt.MaxAge, ExpiredIn: jwt.ExpiredIn, Message: "success"}
+		reqJwt := &domain.JWTToken{User: loggedInData, Secret: token, MaxAge: jwt.MaxAge, ExpiredIn: jwt.ExpiredIn, Message: "success"}
 		return reqJwt, nil
 	}
 
-	reqJwt := &dto.JWTToken{Message: "invalid data"}
+	reqJwt := &domain.JWTToken{Message: "invalid data"}
 	return reqJwt, nil
 
 }

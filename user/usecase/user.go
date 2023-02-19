@@ -21,6 +21,6 @@ func (a *AuthUseCase) User(ctx context.Context, ctr *domain.User) string {
 	return a.repo.User(ctx, ctr)
 }
 
-func (a *AuthUseCase) SignIn(ctx context.Context, ctr *dto.SignIn) (*dto.JWTToken, error) {
+func (a *AuthUseCase) SignIn(ctx context.Context, ctr *dto.SignIn) (*domain.JWTToken, error) {
 	return a.repo.SignIn(ctx, ctr)
 }

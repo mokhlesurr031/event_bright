@@ -17,6 +17,10 @@ import (
 	_authHttp "github.com/event_bright/user/delivery/http"
 	_authRepository "github.com/event_bright/user/repository"
 	_authUseCase "github.com/event_bright/user/usecase"
+
+	_eventHttp "github.com/event_bright/event/delivery/http"
+	_eventRepository "github.com/event_bright/event/repository"
+	_eventUseCase "github.com/event_bright/event/usecase"
 )
 
 // serveCmd represents the serve command
@@ -74,6 +78,10 @@ func buildHTTP(_ *cobra.Command, _ []string) *http.Server {
 	authRepo := _authRepository.New(db)
 	authUsecase := _authUseCase.New(authRepo)
 	_authHttp.NewHTTPHandler(r, authUsecase)
+
+	eventRepo := _eventRepository.New(db)
+	eventUsecase := _eventUseCase.New(eventRepo)
+	_eventHttp.NewHTTPHandler(r, eventUsecase)
 
 	return &http.Server{
 		Addr:    fmt.Sprintf("0.0.0.0:%d", 8081),

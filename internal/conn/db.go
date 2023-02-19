@@ -3,7 +3,6 @@ package conn
 import (
 	"fmt"
 	"github.com/event_bright/domain"
-	"github.com/event_bright/domain/dto"
 	"github.com/event_bright/internal/config"
 	"log"
 	"net/url"
@@ -45,7 +44,7 @@ func Connect(cfg *config.Database) error {
 	makeMigration := Migrate()
 
 	if makeMigration {
-		if err := db.AutoMigrate(&domain.User{}, &dto.SignIn{}); err != nil {
+		if err := db.AutoMigrate(&domain.User{}, &domain.Event{}); err != nil {
 			log.Fatalln(err)
 		}
 	}
