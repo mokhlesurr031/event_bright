@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
+	"gorm.io/gorm"
+	"log"
+	"strconv"
+
 	"github.com/event_bright/domain"
 	"github.com/event_bright/domain/dto"
 	"github.com/event_bright/internal/config"
 	"github.com/event_bright/internal/utils"
-	"gorm.io/gorm"
-	"log"
-	"strconv"
 )
 
 func New(db *gorm.DB) domain.AuthRepository {

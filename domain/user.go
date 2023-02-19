@@ -2,8 +2,9 @@ package domain
 
 import (
 	"context"
-	"github.com/event_bright/domain/dto"
 	"time"
+
+	"github.com/event_bright/domain/dto"
 )
 
 type LoggerInUserData struct {

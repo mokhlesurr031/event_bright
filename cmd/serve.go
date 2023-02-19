@@ -69,7 +69,11 @@ func buildHTTP(_ *cobra.Command, _ []string) *http.Server {
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		_, err := w.Write([]byte("OK"))
+		if err != nil {
+			log.Println(err)
+		}
+
 	})
 
 	db := conn.DefaultDB()

@@ -3,11 +3,14 @@ package http
 import (
 	"context"
 	"encoding/json"
-	"github.com/event_bright/domain"
-	"github.com/go-chi/chi"
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/go-chi/chi"
+
+	"github.com/event_bright/domain"
+	"github.com/event_bright/internal/utils"
 )
 
 type EventHandler struct {
@@ -36,7 +39,7 @@ func (e *EventHandler) Event(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
-	ctx := context.WithValue(r.Context(), "token", tokenString)
+	ctx := context.WithValue(r.Context(), utils.TokenKey, tokenString)
 
 	req := ReqEvent{}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {

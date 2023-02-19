@@ -2,14 +2,15 @@ package conn
 
 import (
 	"fmt"
-	"github.com/event_bright/domain"
-	"github.com/event_bright/internal/config"
 	"log"
 	"net/url"
 	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	"github.com/event_bright/domain"
+	"github.com/event_bright/internal/config"
 )
 
 // DB holds the database instance

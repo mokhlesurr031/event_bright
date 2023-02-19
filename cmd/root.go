@@ -1,9 +1,11 @@
 package cmd
 
 import (
-	"github.com/event_bright/internal/config"
-	"github.com/spf13/cobra"
 	"log"
+
+	"github.com/spf13/cobra"
+
+	"github.com/event_bright/internal/config"
 )
 
 var (

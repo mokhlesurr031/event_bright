@@ -2,11 +2,12 @@ package repository
 
 import (
 	"context"
+	"gorm.io/gorm"
+	"strconv"
+
 	"github.com/event_bright/domain"
 	"github.com/event_bright/internal/config"
 	"github.com/event_bright/internal/utils"
-	"gorm.io/gorm"
-	"strconv"
 )
 
 func New(db *gorm.DB) domain.EventRepository {

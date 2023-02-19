@@ -2,11 +2,13 @@ package http
 
 import (
 	"encoding/json"
-	"github.com/event_bright/domain"
-	"github.com/event_bright/domain/dto"
-	"github.com/go-chi/chi"
 	"log"
 	"net/http"
+
+	"github.com/go-chi/chi"
+
+	"github.com/event_bright/domain"
+	"github.com/event_bright/domain/dto"
 )
 
 type AuthHandler struct {
