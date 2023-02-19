@@ -1,11 +1,13 @@
 package http
 
 import (
+	"context"
 	"encoding/json"
 	"github.com/event_bright/domain"
 	"github.com/go-chi/chi"
 	"log"
 	"net/http"
+	"strings"
 )
 
 type EventHandler struct {
@@ -27,17 +29,27 @@ type ReqEvent struct {
 
 func (e *EventHandler) Event(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+
+	// Check that the request includes a valid JWT token
+	tokenString := strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
+	if tokenString == "" {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+	ctx := context.WithValue(r.Context(), "token", tokenString)
+
 	req := ReqEvent{}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		log.Println(err)
 	}
-
-	ctx := r.Context()
 	event := domain.Event(req.Event)
-	res, _ := e.EventUseCase.Event(ctx, &event)
-
-	er := json.NewEncoder(w).Encode(res)
-	if er != nil {
-		log.Println(er)
+	res, err := e.EventUseCase.Event(ctx, &event)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusConflict), http.StatusConflict)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	if err := json.NewEncoder(w).Encode(res); err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }

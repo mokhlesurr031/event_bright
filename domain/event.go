@@ -10,6 +10,7 @@ type Event struct {
 	Date        time.Time `json:"date"`
 	Location    string    `json:"location"`
 	Description string    `json:"description"`
+	CreatedBy   uint      `json:"created_by"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 

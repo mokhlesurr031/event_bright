@@ -3,7 +3,10 @@ package repository
 import (
 	"context"
 	"github.com/event_bright/domain"
+	"github.com/event_bright/internal/config"
+	"github.com/event_bright/internal/utils"
 	"gorm.io/gorm"
+	"strconv"
 )
 
 func New(db *gorm.DB) domain.EventRepository {
@@ -17,6 +20,17 @@ type EventSqlStorage struct {
 }
 
 func (e *EventSqlStorage) Event(ctx context.Context, ctr *domain.Event) (*domain.Event, error) {
+	jwt := config.JWT()
+	tokenString, _ := ctx.Value("token").(string)
+	token, err := utils.ValidateToken(tokenString, jwt.Secret)
+	if err != nil {
+		return nil, err
+	}
+
+	tokenUint, _ := strconv.ParseUint(token, 10, 64)
+
+	ctr.CreatedBy = uint(tokenUint)
+
 	db := e.db
 	res := db.Create(ctr)
 

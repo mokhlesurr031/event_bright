@@ -11,7 +11,7 @@ current_db:
 
 
 jwt:
-  TOKEN_EXPIRED_IN: 3600
+  TOKEN_EXPIRED_IN: 60m
   TOKEN_MAXAGE: 3600
   TOKEN_SECRET: "event_bright"
 

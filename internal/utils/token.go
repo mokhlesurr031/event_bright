@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -25,22 +26,34 @@ func GenerateToken(validFor time.Duration, userID string, secretKey string) (str
 	return tokenString, nil
 }
 
-func ValidateToken(token string, signedJWTKey string) (interface{}, error) {
-	tok, err := jwt.Parse(token, func(jwtToken *jwt.Token) (interface{}, error) {
-		if _, ok := jwtToken.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected method: %s", jwtToken.Header["alg"])
+func ValidateToken(tokenString string, secretKey string) (string, error) {
+	// parse the token string
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		// verify the signing method
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 
-		return []byte(signedJWTKey), nil
+		// return the secret key
+		return []byte(secretKey), nil
 	})
+
+	// check for parsing errors
 	if err != nil {
-		return nil, fmt.Errorf("invalidate token: %w", err)
+		return "", err
 	}
 
-	claims, ok := tok.Claims.(jwt.MapClaims)
-	if !ok || !tok.Valid {
-		return nil, fmt.Errorf("invalid token claim")
-	}
+	// check if the token is valid
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		// check if the token has expired
+		exp := time.Unix(int64(claims["exp"].(float64)), 0)
+		if exp.Before(time.Now()) {
+			return "", errors.New("token has expired")
+		}
 
-	return claims["sub"], nil
+		// return the user ID
+		return claims["id"].(string), nil
+	} else {
+		return "", errors.New("invalid token")
+	}
 }
