@@ -1,7 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"github.com/event_bright/cmd"
+	"log"
+)
 
 func main() {
-	fmt.Println("Hello")
+	err := cmd.Execute()
+	if err != nil {
+		log.Println(err)
+	}
 }
