@@ -13,3 +13,21 @@ services:
       - POSTGRES_PASSWORD=secret
     volumes:
       - ./database:/var/lib/postgresql
+    networks:
+      - internal
+
+  app:
+    build:
+      context: .
+    ports:
+      - "8081:8081"
+    depends_on:
+      - database
+    networks:
+      - internal
+    environment:
+      - POSTGRESQL_ADDON_HOST=database
+
+
+networks:
+  internal:
