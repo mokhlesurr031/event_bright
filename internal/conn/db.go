@@ -45,7 +45,7 @@ func Connect(cfg *config.Database) error {
 	makeMigration := Migrate()
 
 	if makeMigration {
-		if err := db.AutoMigrate(&domain.User{}, &domain.Event{}); err != nil {
+		if err := db.AutoMigrate(&domain.User{}, &domain.Event{}, &domain.Participant{}); err != nil {
 			log.Fatalln(err)
 		}
 	}

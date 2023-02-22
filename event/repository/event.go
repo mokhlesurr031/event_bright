@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"gorm.io/gorm"
 	"strconv"
 
@@ -74,4 +75,31 @@ func (e *EventSqlStorage) MyEventList(ctx context.Context, ctr *domain.EventCrit
 		return nil, err
 	}
 	return eventList, nil
+}
+
+func (c *EventSqlStorage) EventDetails(ctx context.Context, ctr *domain.EventCriteria) (*domain.Event, error) {
+	qry := c.db
+	eventDetails := &domain.Event{}
+	if ctr.Id != nil {
+		err := qry.First(&eventDetails, "id=?", ctr.Id).Error
+		if err != nil {
+			return nil, err
+		}
+		return eventDetails, nil
+	}
+	return nil, nil
+}
+
+func (e *EventSqlStorage) Participate(ctx context.Context, ctr *domain.Participant) (*domain.Participant, error) {
+	db := e.db
+	var event domain.Event
+	if err := db.Create(ctr).Error; err != nil {
+		return nil, err
+	}
+
+	db.First(&event, "id=?", ctr.EventID)
+	fmt.Println(event.TotalParticipant)
+	db.Model(&event).Update("TotalParticipant", event.TotalParticipant+1)
+
+	return ctr, nil
 }
