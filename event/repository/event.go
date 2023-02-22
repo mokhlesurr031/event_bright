@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"gorm.io/gorm"
+	"log"
 	"strconv"
 
 	"github.com/event_bright/domain"
@@ -93,13 +94,24 @@ func (c *EventSqlStorage) EventDetails(ctx context.Context, ctr *domain.EventCri
 func (e *EventSqlStorage) Participate(ctx context.Context, ctr *domain.Participant) (*domain.Participant, error) {
 	db := e.db
 	var event domain.Event
-	if err := db.Create(ctr).Error; err != nil {
-		return nil, err
+	var participant domain.Participant
+
+	if err := db.Where("email = ? AND event_id = ?", ctr.Email, ctr.EventID).First(&participant).Error; err != nil {
+		log.Println(err)
 	}
 
-	db.First(&event, "id=?", ctr.EventID)
-	fmt.Println(event.TotalParticipant)
-	db.Model(&event).Update("TotalParticipant", event.TotalParticipant+1)
+	if participant.Id != 0 {
+		fmt.Println("Already Exists")
+	} else {
+		if err := db.Create(ctr).Error; err != nil {
+			return nil, err
+		}
 
-	return ctr, nil
+		db.First(&event, "id=?", ctr.EventID)
+		fmt.Println(event.TotalParticipant)
+		db.Model(&event).Update("TotalParticipant", event.TotalParticipant+1)
+
+		return ctr, nil
+	}
+	return nil, nil
 }
