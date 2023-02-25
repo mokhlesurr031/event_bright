@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"gorm.io/gorm"
 	"log"
@@ -96,7 +97,7 @@ func (e *EventSqlStorage) Participate(ctx context.Context, ctr *domain.Participa
 	}
 
 	if participant.Id != 0 {
-		fmt.Println("Already Exists")
+		return nil, errors.New("You have already participated in this event")
 	} else {
 		if err := e.db.Create(ctr).Error; err != nil {
 			return nil, err
@@ -108,5 +109,4 @@ func (e *EventSqlStorage) Participate(ctx context.Context, ctr *domain.Participa
 
 		return ctr, nil
 	}
-	return nil, nil
 }

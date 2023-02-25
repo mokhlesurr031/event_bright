@@ -162,16 +162,13 @@ func (e *EventHandler) Participate(w http.ResponseWriter, r *http.Request) {
 
 	ctx := r.Context()
 	res, err := e.EventUseCase.Participate(ctx, &participant)
+
 	if err != nil {
-		w.WriteHeader(http.StatusConflict)
-		if err := json.NewEncoder(w).Encode("Invalid Token"); err != nil {
-			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		}
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(res); err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
-
 }
