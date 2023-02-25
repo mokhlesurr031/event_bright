@@ -1,6 +1,33 @@
 # event_bright
 
 
+### How to Run (2 ways): 
+
+**1. Dockerize:**
+
+      a. Have docker installed on host-machine.
+
+      b. Execute command `docker-compose up` or `docker-compose up -d` for PostgreSQL Database.
+
+      c. Run project by using command `make serve`.
+
+
+**2. Manual Way:**
+
+      a. Install PostgreSQL on Host PC.
+   
+      b. Install Golang on Host PC.
+
+     Then:
+
+      1. Build Project by using command `go build -v .`
+      2. Configure DB by changing `config.yml` file in `local_database` section. 
+      3. Change `current_db`'s `RUNNING` value from docker_database to `local_database`.
+      4. Run the project by using command `./event_bright serve`. 
+
+
+
+
 ## API Endpoints 
 
 
@@ -184,26 +211,41 @@
    ```
    Status Code: 200
    [
-   {
-     "id": 5,
-     "name": "Test Event-5",
-     "date": "2023-03-05T21:00:00+06:00",
-     "location": "Sylhet",
-     "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-     "created_by": 3,
-     "total_participant": 0,
-     "created_at": "2023-02-26T01:39:09.860104+06:00"
-   },
-   {
-     "id": 6,
-     "name": "Test Event-6",
-     "date": "2023-03-05T21:00:00+06:00",
-     "location": "Khulna",
-     "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-     "created_by": 3,
-     "total_participant": 0,
-     "created_at": "2023-02-26T01:39:33.210477+06:00"
-   }
+     {
+       "name": "Test Event-5",
+       "location": "Khulna",
+       "date": "2023-03-05T21:00:00+06:00",
+       "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+       "created_by": "Test User-3",
+       "total_participant": 0,
+       "Participant": []
+     },
+     {
+       "name": "Test Event-5",
+       "location": "Sylhet",
+       "date": "2023-03-05T21:00:00+06:00",
+       "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+       "created_by": "Test User-3",
+       "total_participant": 4,
+       "Participant": [
+       {
+         "name": "Participant User 1",
+         "email": "par2@gmail.com"
+       },
+       {
+         "name": "Participant User 2",
+         "email": "par1@gmail.com"
+       },
+       {
+         "name": "Participant User 3",
+         "email": "par3@gmail.com"
+       },
+       {
+         "name": "Participant User 4",
+         "email": "par4@gmail.com"
+       }
+      ]
+     }
    ]
     
     ```
