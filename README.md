@@ -40,7 +40,7 @@ As a user, I want to use a web application called Event Bright. Using Event Brig
 
 [For User API docs](./documentation/user.md "User API Documentation!")
 
-[For User API docs](./documentation/events.md "Event API Documentation!")
+[For Event API docs](./documentation/events.md "Event API Documentation!")
 
 
 
