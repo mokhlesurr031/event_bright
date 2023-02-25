@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"gorm.io/gorm"
 	"log"
@@ -55,7 +56,7 @@ func (e *EventSqlStorage) EventList(ctx context.Context, ctr *domain.EventCriter
 	return eventList, nil
 }
 
-func (e *EventSqlStorage) MyEventList(ctx context.Context, ctr *domain.EventCriteria) ([]*domain.Event, error) {
+func (e *EventSqlStorage) MyEventList(ctx context.Context, ctr *domain.EventCriteria) ([]*domain.SelfEventList, error) {
 	jwt := config.JWT()
 	tokenString, _ := ctx.Value("token").(string)
 	token, err := utils.ValidateToken(tokenString, jwt.Secret)
@@ -65,14 +66,38 @@ func (e *EventSqlStorage) MyEventList(ctx context.Context, ctr *domain.EventCrit
 
 	tokenUint, _ := strconv.ParseUint(token, 10, 64)
 
-	eventList := make([]*domain.Event, 0)
+	me := domain.User{}
+
+	if err := e.db.Where("id = ?", tokenUint).Select("name").Find(&me); err != nil {
+		log.Println(err)
+	}
+
+	fmt.Println("My Name", me.Name)
+
+	var eventList []domain.Event
 	if err := e.db.WithContext(ctx).Where("created_by = ?", tokenUint).Find(&eventList).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return nil, nil
-		}
 		return nil, err
 	}
-	return eventList, nil
+	var myEventList []*domain.SelfEventList
+	party := domain.Participant{}
+
+	for _, val := range eventList {
+		var myEvent domain.SelfEventList
+		var participant []domain.SelfEventParticipant
+		e.db.Model(&party).Where("event_id=?", val.Id).Find(&participant)
+
+		myEvent.Name = val.Name
+		myEvent.Date = val.Date
+		myEvent.Location = val.Location
+		myEvent.Description = val.Description
+		myEvent.TotalParticipant = val.TotalParticipant
+		myEvent.CreatedBy = me.Name
+		myEvent.Participant = participant
+
+		myEventList = append(myEventList, &myEvent)
+	}
+
+	return myEventList, nil
 }
 
 func (e *EventSqlStorage) EventDetails(ctx context.Context, ctr *domain.EventCriteria) (*domain.Event, error) {
@@ -96,7 +121,7 @@ func (e *EventSqlStorage) Participate(ctx context.Context, ctr *domain.Participa
 	}
 
 	if participant.Id != 0 {
-		fmt.Println("Already Exists")
+		return nil, errors.New("You have already participated in this event")
 	} else {
 		if err := e.db.Create(ctr).Error; err != nil {
 			return nil, err
@@ -108,5 +133,4 @@ func (e *EventSqlStorage) Participate(ctx context.Context, ctr *domain.Participa
 
 		return ctr, nil
 	}
-	return nil, nil
 }

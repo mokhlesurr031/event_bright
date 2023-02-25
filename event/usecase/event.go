@@ -25,7 +25,7 @@ func (e *EventUseCase) EventList(ctx context.Context, ctr *domain.EventCriteria)
 	return e.repo.EventList(ctx, ctr)
 }
 
-func (e *EventUseCase) MyEventList(ctx context.Context, ctr *domain.EventCriteria) ([]*domain.Event, error) {
+func (e *EventUseCase) MyEventList(ctx context.Context, ctr *domain.EventCriteria) ([]*domain.SelfEventList, error) {
 	return e.repo.MyEventList(ctx, ctr)
 }
 
