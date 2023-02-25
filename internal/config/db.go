@@ -1,9 +1,8 @@
 package config
 
 import (
-	"log"
-
 	"github.com/spf13/viper"
+	"log"
 )
 
 type Database struct {
@@ -36,6 +35,7 @@ func loadDB() {
 		Username: viper.GetString(currentDB + ".POSTGRESQL_ADDON_USER"),
 		Password: viper.GetString(currentDB + ".POSTGRESQL_ADDON_PASSWORD"),
 		Host:     viper.GetString(currentDB + ".POSTGRESQL_ADDON_HOST"),
-		Port:     viper.GetInt(currentDB + ".POSTGRESQL_ADDON_PORT"),
+		//Host: "database",
+		Port: viper.GetInt(currentDB + ".POSTGRESQL_ADDON_PORT"),
 	}
 }
