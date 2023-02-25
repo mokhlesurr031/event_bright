@@ -43,4 +43,3 @@ As a user, I want to use a web application called Event Bright. Using Event Brig
 [For Event API docs](./documentation/events.md "Event API Documentation!")
 
 
-
