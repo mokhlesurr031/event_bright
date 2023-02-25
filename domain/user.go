@@ -31,11 +31,11 @@ type User struct {
 }
 
 type AuthRepository interface {
-	User(ctx context.Context, ctr *User) string
+	User(ctx context.Context, ctr *User) (*User, error)
 	SignIn(ctx context.Context, ctr *dto.SignIn) (*JWTToken, error)
 }
 
 type AuthUseCase interface {
-	User(ctx context.Context, ctr *User) string
+	User(ctx context.Context, ctr *User) (*User, error)
 	SignIn(ctx context.Context, ctr *dto.SignIn) (*JWTToken, error)
 }

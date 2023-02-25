@@ -38,11 +38,15 @@ func (a *AuthHandler) User(w http.ResponseWriter, r *http.Request) {
 
 	ctx := r.Context()
 	user := domain.User(req.User)
-	res := a.AuthUseCase.User(ctx, &user)
 
-	er := json.NewEncoder(w).Encode(res)
-	if er != nil {
-		log.Println(er)
+	res, err := a.AuthUseCase.User(ctx, &user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	if err := json.NewEncoder(w).Encode(res); err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }
 

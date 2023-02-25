@@ -34,8 +34,8 @@ func (e *EventSqlStorage) Event(ctx context.Context, ctr *domain.Event) (*domain
 
 	ctr.CreatedBy = uint(tokenUint)
 
-	db := e.db
-	res := db.Create(ctr)
+	//db := e.db
+	res := e.db.Create(ctr)
 
 	if res.Error != nil {
 		return nil, res.Error
@@ -45,10 +45,8 @@ func (e *EventSqlStorage) Event(ctx context.Context, ctr *domain.Event) (*domain
 }
 
 func (e *EventSqlStorage) EventList(ctx context.Context, ctr *domain.EventCriteria) ([]*domain.Event, error) {
-	qry := e.db
-
 	eventList := make([]*domain.Event, 0)
-	if err := qry.WithContext(ctx).Find(&eventList).Error; err != nil {
+	if err := e.db.WithContext(ctx).Find(&eventList).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, nil
 		}
@@ -58,7 +56,6 @@ func (e *EventSqlStorage) EventList(ctx context.Context, ctr *domain.EventCriter
 }
 
 func (e *EventSqlStorage) MyEventList(ctx context.Context, ctr *domain.EventCriteria) ([]*domain.Event, error) {
-	qry := e.db
 	jwt := config.JWT()
 	tokenString, _ := ctx.Value("token").(string)
 	token, err := utils.ValidateToken(tokenString, jwt.Secret)
@@ -69,7 +66,7 @@ func (e *EventSqlStorage) MyEventList(ctx context.Context, ctr *domain.EventCrit
 	tokenUint, _ := strconv.ParseUint(token, 10, 64)
 
 	eventList := make([]*domain.Event, 0)
-	if err := qry.WithContext(ctx).Where("created_by = ?", tokenUint).Find(&eventList).Error; err != nil {
+	if err := e.db.WithContext(ctx).Where("created_by = ?", tokenUint).Find(&eventList).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, nil
 		}
@@ -78,11 +75,10 @@ func (e *EventSqlStorage) MyEventList(ctx context.Context, ctr *domain.EventCrit
 	return eventList, nil
 }
 
-func (c *EventSqlStorage) EventDetails(ctx context.Context, ctr *domain.EventCriteria) (*domain.Event, error) {
-	qry := c.db
+func (e *EventSqlStorage) EventDetails(ctx context.Context, ctr *domain.EventCriteria) (*domain.Event, error) {
 	eventDetails := &domain.Event{}
 	if ctr.Id != nil {
-		err := qry.First(&eventDetails, "id=?", ctr.Id).Error
+		err := e.db.First(&eventDetails, "id=?", ctr.Id).Error
 		if err != nil {
 			return nil, err
 		}
@@ -92,24 +88,23 @@ func (c *EventSqlStorage) EventDetails(ctx context.Context, ctr *domain.EventCri
 }
 
 func (e *EventSqlStorage) Participate(ctx context.Context, ctr *domain.Participant) (*domain.Participant, error) {
-	db := e.db
 	var event domain.Event
 	var participant domain.Participant
 
-	if err := db.Where("email = ? AND event_id = ?", ctr.Email, ctr.EventID).First(&participant).Error; err != nil {
+	if err := e.db.Where("email = ? AND event_id = ?", ctr.Email, ctr.EventID).First(&participant).Error; err != nil {
 		log.Println(err)
 	}
 
 	if participant.Id != 0 {
 		fmt.Println("Already Exists")
 	} else {
-		if err := db.Create(ctr).Error; err != nil {
+		if err := e.db.Create(ctr).Error; err != nil {
 			return nil, err
 		}
 
-		db.First(&event, "id=?", ctr.EventID)
+		e.db.First(&event, "id=?", ctr.EventID)
 		fmt.Println(event.TotalParticipant)
-		db.Model(&event).Update("TotalParticipant", event.TotalParticipant+1)
+		e.db.Model(&event).Update("TotalParticipant", event.TotalParticipant+1)
 
 		return ctr, nil
 	}

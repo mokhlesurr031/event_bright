@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"gorm.io/gorm"
 	"log"
 	"strconv"
@@ -23,14 +23,12 @@ type AuthSqlStorage struct {
 	db *gorm.DB
 }
 
-func (a *AuthSqlStorage) User(ctx context.Context, ctr *domain.User) string {
-	db := a.db
-	fmt.Println(ctr.Password, ctr.PasswordConfirm)
+func (a *AuthSqlStorage) User(ctx context.Context, ctr *domain.User) (*domain.User, error) {
 	hashedPassword := ""
 
 	if ctr.Password != "" && ctr.PasswordConfirm != "" {
 		if ctr.Password != ctr.PasswordConfirm {
-			return "password doesn't match"
+			return nil, errors.New("password doesn't match")
 		} else {
 			hash, err := utils.HashPassword(ctr.Password)
 			if err != nil {
@@ -39,7 +37,7 @@ func (a *AuthSqlStorage) User(ctx context.Context, ctr *domain.User) string {
 			hashedPassword = hash
 		}
 	} else {
-		return "please provide both password"
+		return nil, errors.New("please provide both password")
 	}
 
 	ctr.Password = hashedPassword
@@ -49,28 +47,41 @@ func (a *AuthSqlStorage) User(ctx context.Context, ctr *domain.User) string {
 
 	if ctr.Email != "" {
 		//Check if email already exists
-		mail := db.First(&user, "email=?", ctr.Email)
+		mail := a.db.First(&user, "email=?", ctr.Email)
 		cred := &domain.User{}
 		if err := mail.WithContext(ctx).Take(cred).Error; err != nil {
 			log.Println(err)
 		}
 		if cred.Email != "" {
-			return "email already exists"
+			return nil, errors.New("email already exists")
 		}
 	}
 
-	db.Create(ctr)
+	if err := a.db.Create(ctr).Error; err != nil {
+		return nil, err
+	}
 
-	return "success"
+	// Retrieve the ID of the newly created record
+	createdId := ctr.ID
+
+	userResp := domain.User{
+		ID:              createdId,
+		Name:            ctr.Name,
+		Email:           ctr.Email,
+		CreatedAt:       ctr.CreatedAt,
+		Password:        "",
+		PasswordConfirm: "",
+	}
+
+	return &userResp, nil
 }
 
 func (a *AuthSqlStorage) SignIn(ctx context.Context, ctr *dto.SignIn) (*domain.JWTToken, error) {
-	qry := a.db
 	jwt := config.JWT()
 	user := domain.User{}
 
 	if ctr.Email != "" && ctr.Password != "" {
-		qry := qry.Find(&user, "email=?", ctr.Email)
+		qry := a.db.Find(&user, "email=?", ctr.Email)
 		cred := &domain.User{}
 		if err := qry.WithContext(ctx).Take(cred).Error; err != nil {
 			log.Println(err)

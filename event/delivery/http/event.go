@@ -3,6 +3,8 @@ package http
 import (
 	"context"
 	"encoding/json"
+	"github.com/event_bright/domain/dto"
+	"github.com/event_bright/internal/utils"
 	"log"
 	"net/http"
 	"strconv"
@@ -35,6 +37,10 @@ type ReqEvent struct {
 	domain.Event
 }
 
+type ReqEventDto struct {
+	dto.EventDto
+}
+
 var (
 	TokenKey = "token"
 )
@@ -51,9 +57,20 @@ func (e *EventHandler) Event(w http.ResponseWriter, r *http.Request) {
 	ctx := context.WithValue(r.Context(), TokenKey, tokenString)
 
 	req := ReqEvent{}
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+	reqDto := ReqEventDto{}
+	if err := json.NewDecoder(r.Body).Decode(&reqDto); err != nil {
 		log.Println(err)
 	}
+	parsedTime, err := utils.ParseDatetime(reqDto.Date)
+	if err != nil {
+		log.Println(err)
+	}
+
+	req.Date = parsedTime
+	req.Name = reqDto.Name
+	req.Location = reqDto.Location
+	req.Description = reqDto.Description
+
 	event := domain.Event(req.Event)
 	res, err := e.EventUseCase.Event(ctx, &event)
 	if err != nil {

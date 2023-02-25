@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	
+
 	"github.com/event_bright/domain"
 	"github.com/event_bright/domain/dto"
 )
@@ -18,7 +18,7 @@ type AuthUseCase struct {
 	repo domain.AuthRepository
 }
 
-func (a *AuthUseCase) User(ctx context.Context, ctr *domain.User) string {
+func (a *AuthUseCase) User(ctx context.Context, ctr *domain.User) (*domain.User, error) {
 	return a.repo.User(ctx, ctr)
 }
 
