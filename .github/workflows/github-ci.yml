@@ -31,8 +31,8 @@ jobs:
         run: |
           cd ..
           ls -l
-#          cd event_bright
-#          ls -l
+          cd event_bright
+          ls -l
 #          docker-compose up
 #        shell: bash
 
