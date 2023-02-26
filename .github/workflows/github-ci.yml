@@ -11,23 +11,34 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_DB: event_bright
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: secret
+
+    steps:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
           go-version: 1.19
 
-      - name: build
-        run: go build -v ./...
+      - name: Checkout to code into the Go module directory
+        run: |
+          actions/checkout@v3
+          ls -a
+          make serve
 
-  run:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run Project
-        run: ./event_bright serve
+#  run:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Run Project
+#        run: ./event_bright serve
 
 
