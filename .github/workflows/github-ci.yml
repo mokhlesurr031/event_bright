@@ -27,16 +27,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Navigate to project directory
+      - name: Navigate to project directory and run docker-compose
         run: |
           cd ../..
-          ls
-        shell: bash
-
-      - name: Run docker-compose
-        working-directory: .
-        run: |
-          pwd
-          ls
           docker-compose up
+#        shell: bash
+
 
