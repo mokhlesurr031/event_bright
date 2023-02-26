@@ -13,15 +13,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:12
-        env:
-          POSTGRES_DB: event_bright
-          POSTGRES_USER: admin
-          POSTGRES_PASSWORD: secret
-
     steps:
       - name: Set up Go
         uses: actions/setup-go@v3
@@ -31,8 +22,10 @@ jobs:
       - name: Checkout to code into the Go module directory
         uses: actions/checkout@v3
 
-      - name: Directory
-        run: docker-compose up
+      - name: Run Docker Compose
+        run: |
+          docker-compose up
+          docker-compose down
 
 
 
