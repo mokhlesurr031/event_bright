@@ -28,7 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Navigate to project directory
-        run: cd ../..
+        run: |
+          cd ../..
+          ls
         shell: bash
 
       - name: Run docker-compose
