@@ -29,11 +29,10 @@ jobs:
     steps:
       - name: Navigate to project directory and run docker-compose
         run: |
-          cd
+          cd cd $GITHUB_WORKSPACE
           ls -l
           echo "new dir"
-          cd event_bright
-          ls -l
+
 #          docker-compose up
 #        shell: bash
 
