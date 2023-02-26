@@ -30,6 +30,9 @@ jobs:
       - name: Navigate to project directory and run docker-compose
         run: |
           cd ../..
+          ls -l
+          cd event_bright
+          ls -l
           docker-compose up
 #        shell: bash
 
