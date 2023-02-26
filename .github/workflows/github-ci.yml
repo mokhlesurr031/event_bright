@@ -29,8 +29,8 @@ jobs:
           go-version: 1.19
 
       - name: Checkout to code into the Go module directory
+        uses: actions/checkout@v3
         run: |
-          actions/checkout@v3
           ls -a
           make serve
 
