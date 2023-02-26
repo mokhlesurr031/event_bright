@@ -27,13 +27,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Navigate to project directory and run docker-compose
-        run: |
-          cd event_bright
-          ls -l
-          echo "new dir"
-
-#          docker-compose up
-#        shell: bash
+      - name: Run Project
+        run: ./event_bright serve
 
 
