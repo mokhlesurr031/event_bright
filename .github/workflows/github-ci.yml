@@ -30,6 +30,8 @@ jobs:
 
       - name: Checkout to code into the Go module directory
         uses: actions/checkout@v3
+
+      - name: Directory
         run: |
           ls -a
           make serve
