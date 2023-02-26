@@ -26,7 +26,6 @@ jobs:
   run:
     needs: build
     runs-on: ubuntu-latest
-    working-directory: ../..
     steps:
       - name: Navigate to project directory
         run: cd ../..
