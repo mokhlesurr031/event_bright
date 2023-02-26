@@ -26,6 +26,8 @@ jobs:
   run:
     needs: build
     runs-on: ubuntu-latest
+    working-directory: ../..
     steps:
-      - run: docker-compose up
+      - name: Run docker compose
+        run: docker-compose up
 
