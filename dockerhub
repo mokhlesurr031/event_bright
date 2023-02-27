@@ -1,0 +1,8 @@
+Push to docker hub repository
+
+
+1. Build Image
+2. Build Image tag "docker tag event_bright mahin96/self-managed-public:event_bright_app" where
+docker tag ImgName UserName/RepoName:NewBuiltImg
+3. Push img to repository by "docker push mahin96/self-managed-public:event_bright_app" where
+docker push UserName/RepoName:NewBuiltImg
