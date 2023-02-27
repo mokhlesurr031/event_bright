@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Docker Compose
         run: |
-          docker build -t event_bright_neondb
+          docker build -t event_bright_neondb .
           docker run -p8081:8081 --name event_bright_app event_bright_neondb
 
 #      - name: Stop docker compose
