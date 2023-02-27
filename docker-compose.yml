@@ -32,4 +32,6 @@ services:
       - POSTGRESQL_ADDON_DB=event_bright
     depends_on:
       - database
+    entrypoint: ["/app/wait-for.sh", "database:5432", "--", "/app/main"]
+    command: ["serve"]
 
