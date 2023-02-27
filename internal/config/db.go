@@ -35,7 +35,6 @@ func loadDB() {
 		Username: viper.GetString(currentDB + ".POSTGRESQL_ADDON_USER"),
 		Password: viper.GetString(currentDB + ".POSTGRESQL_ADDON_PASSWORD"),
 		Host:     viper.GetString(currentDB + ".POSTGRESQL_ADDON_HOST"),
-		//Host: "database",
-		Port: viper.GetInt(currentDB + ".POSTGRESQL_ADDON_PORT"),
+		Port:     viper.GetInt(currentDB + ".POSTGRESQL_ADDON_PORT"),
 	}
 }

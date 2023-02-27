@@ -4,7 +4,8 @@ services:
 
   database:
     image: postgres
-    container_name: pg-event-bright
+    restart: always
+    container_name: event_bright_db
     ports:
       - 5432:5432
     environment:
@@ -13,21 +14,24 @@ services:
       - POSTGRES_PASSWORD=secret
     volumes:
       - ./database:/var/lib/postgresql
-#    networks:
-#      - internal
 
-#  app:
-#    build:
-#      context: .
-#    ports:
-#      - "8081:8081"
-#    depends_on:
-#      - database
-#    networks:
-#      - internal
-#    environment:
-#      - POSTGRESQL_ADDON_HOST=database
+  app:
+    image: event_bright
+    container_name: event_bright_app
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    environment:
+      - POSTGRESQL_ADDON_HOST=database
+      - POSTGRESQL_ADDON_PORT=5432
+      - POSTGRESQL_ADDON_USER=admin
+      - POSTGRESQL_ADDON_PASSWORD=secret
+      - POSTGRESQL_ADDON_DB=event_bright
+    depends_on:
+      - database
+    entrypoint: ["/app/wait-for.sh", "database:5432", "--", "/app/main"]
+    command: ["serve"]
 
-
-#networks:
-#  internal:
