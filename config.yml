@@ -11,18 +11,25 @@ docker_database:
   POSTGRESQL_ADDON_PASSWORD: secret
 
 
-neon_db:
-  POSTGRESQL_ADDON_DB: neondb
-  POSTGRESQL_ADDON_HOST: ep-winter-shadow-337023.ap-southeast-1.aws.neon.tech
-  POSTGRESQL_ADDON_PASSWORD: mdoDKH32WfRU
-  POSTGRESQL_ADDON_PORT: 5432
-  POSTGRESQL_ADDON_URI: postgres://mokhlesurr031@ep-winter-shadow-337023.ap-southeast-1.aws.neon.tech/neondb
-  POSTGRESQL_ADDON_USER: mokhlesurr031
-  POSTGRESQL_ADDON_VERSION: 14
+remote_db:
+  POSTGRESQL_ADDON_DB: { { db } }
+  POSTGRESQL_ADDON_HOST: { { host } }
+  POSTGRESQL_ADDON_PASSWORD: { { password } }
+  POSTGRESQL_ADDON_PORT: { { port } }
+  POSTGRESQL_ADDON_URI: { { url } }
+  POSTGRESQL_ADDON_USER: { { user } }
+  POSTGRESQL_ADDON_VERSION: { { version } }
+
+local_db:
+  POSTGRESQL_ADDON_DB: { { db_name } }
+  POSTGRESQL_ADDON_HOST: { { host } }
+  POSTGRESQL_ADDON_PASSWORD: { { password } }
+  POSTGRESQL_ADDON_PORT: { { port } }
+  POSTGRESQL_ADDON_USER: { { user } }
 
 
 current_db:
-  RUNNING: neon_db
+  RUNNING: docker_database
 
 
 

@@ -64,11 +64,13 @@ func (a *AuthHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	signIn := dto.SignIn(req.SignIn)
 	resp, err := a.AuthUseCase.SignIn(ctx, &signIn)
+
 	if err != nil {
-		log.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
-	er := json.NewEncoder(w).Encode(resp)
-	if err != nil {
-		log.Println(er)
+	w.WriteHeader(http.StatusCreated)
+	if err := json.NewEncoder(w).Encode(resp); err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }
