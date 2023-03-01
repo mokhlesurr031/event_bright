@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-bright-api-deployment
+  labels:
+    app: event-bright-api
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: event-bright-api
+
+  template:
+    metadata:
+      labels:
+        app: event-bright-api
+    spec:
+      containers:
+        - name: event-bright-api
+          image: mahin96/self-managed-public:event_bright_app_neondb
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+
+

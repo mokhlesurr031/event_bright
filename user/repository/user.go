@@ -87,13 +87,13 @@ func (a *AuthSqlStorage) SignIn(ctx context.Context, ctr *dto.SignIn) (*domain.J
 			log.Println(err)
 		}
 		if cred.Email == "" {
-			reqJwt := &domain.JWTToken{Message: "invalid data"}
-			return reqJwt, nil
+			err := errors.New("Invalid Data")
+			return nil, err
 		}
 
 		if err := utils.VerifyPassword(cred.Password, ctr.Password); err != nil {
-			reqJwt := &domain.JWTToken{Message: "invalid password"}
-			return reqJwt, err
+			err := errors.New("Invalid Password")
+			return nil, err
 		}
 
 		token, err := utils.GenerateToken(jwt.ExpiredIn, strconv.Itoa(int(cred.ID)), jwt.Secret)
@@ -110,7 +110,7 @@ func (a *AuthSqlStorage) SignIn(ctx context.Context, ctr *dto.SignIn) (*domain.J
 		return reqJwt, nil
 	}
 
-	reqJwt := &domain.JWTToken{Message: "invalid data"}
-	return reqJwt, nil
+	err := errors.New("Invalid Data")
+	return nil, err
 
 }
