@@ -12,20 +12,20 @@ docker_database:
 
 
 remote_db:
-  POSTGRESQL_ADDON_DB: { { db } }
-  POSTGRESQL_ADDON_HOST: { { host } }
-  POSTGRESQL_ADDON_PASSWORD: { { password } }
-  POSTGRESQL_ADDON_PORT: { { port } }
-  POSTGRESQL_ADDON_URI: { { url } }
-  POSTGRESQL_ADDON_USER: { { user } }
-  POSTGRESQL_ADDON_VERSION: { { version } }
+  POSTGRESQL_ADDON_DB: db 
+  POSTGRESQL_ADDON_HOST:  host 
+  POSTGRESQL_ADDON_PASSWORD:  password 
+  POSTGRESQL_ADDON_PORT:  port 
+  POSTGRESQL_ADDON_URI:  url 
+  POSTGRESQL_ADDON_USER:  user 
+  POSTGRESQL_ADDON_VERSION:  version 
 
 local_db:
-  POSTGRESQL_ADDON_DB: { { db_name } }
-  POSTGRESQL_ADDON_HOST: { { host } }
-  POSTGRESQL_ADDON_PASSWORD: { { password } }
-  POSTGRESQL_ADDON_PORT: { { port } }
-  POSTGRESQL_ADDON_USER: { { user } }
+  POSTGRESQL_ADDON_DB:  db_name 
+  POSTGRESQL_ADDON_HOST:  host 
+  POSTGRESQL_ADDON_PASSWORD:  password 
+  POSTGRESQL_ADDON_PORT:  port 
+  POSTGRESQL_ADDON_USER:  user 
 
 
 current_db:
