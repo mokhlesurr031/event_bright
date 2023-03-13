@@ -39,6 +39,9 @@ jobs:
           proxy_timeout: 300s
 
           run: |
+            sudo apt update
+            echo $GITHUB_SHA
+            echo "$GITHUB_SHA"
             # set +e
             # docker --version
             # if [ $? -ne 0 ]; then
@@ -48,7 +51,7 @@ jobs:
             # else
             #   echo "Docker is already installed, skipping installation."
             # fi
-            sudo apt update 
-            echo $GITHUB_SHA
+            # sudo apt update 
+            # echo $GITHUB_SHA
             # docker pull mahin96/event-bright:$GITHUB_SHA
           # sudo apt install -y docker.io
