@@ -24,6 +24,6 @@ jobs:
           push: true
           tags: 1.0.0
           repository: mahin96/event-bright
-          DOCKER_USERNAME: mahin96
-          DOCKER_PASSWORD: @mahinoyela@
+          DOCKER_USERNAME: "mahin96"
+          DOCKER_PASSWORD: "@mahinoyela@"
 
