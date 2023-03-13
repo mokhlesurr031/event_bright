@@ -23,7 +23,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: 1.0.0
-          repository: mahin96/event-bright
+          repository: docker.io/mahin96/event-bright
         env:
           DOCKER_USERNAME: "mahin96"
           DOCKER_PASSWORD: "@mahinoyela@"
