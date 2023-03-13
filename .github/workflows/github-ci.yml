@@ -16,7 +16,7 @@ jobs:
       - name: Build latest change
         run: go build -v ./...
 
-      - name: Build Docker Image
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -24,6 +24,7 @@ jobs:
           push: true
           tags: 1.0.0
           repository: mahin96/event-bright
+        env:
           DOCKER_USERNAME: "mahin96"
           DOCKER_PASSWORD: "@mahinoyela@"
 
