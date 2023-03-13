@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout to latest code
-        uses: actions/checkout@develop
+        uses: actions/checkout@v2
 
       - name: Build latest change
         run: go build -v ./...
