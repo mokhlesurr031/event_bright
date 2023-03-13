@@ -16,11 +16,6 @@ jobs:
       - name: Build latest change
         run: go build -v ./...
 
-      # - name: Build Docker Image
-      #   run: |
-      #     docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_ACCESS_TOKEN }}" docker.io
-      #     docker build -t event-bright:1.0.0 .
-      #     # echo "${{ secrets.DOCKER_ACCESS_TOKEN }}"
 
       - name: Login to Docker Hub
       uses: ./
