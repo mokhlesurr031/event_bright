@@ -11,15 +11,6 @@ docker_database:
   POSTGRESQL_ADDON_PASSWORD: secret
 
 
-remote_db:
-  POSTGRESQL_ADDON_DB: db 
-  POSTGRESQL_ADDON_HOST:  host 
-  POSTGRESQL_ADDON_PASSWORD:  password 
-  POSTGRESQL_ADDON_PORT:  port 
-  POSTGRESQL_ADDON_URI:  url 
-  POSTGRESQL_ADDON_USER:  user 
-  POSTGRESQL_ADDON_VERSION:  version 
-
 local_db:
   POSTGRESQL_ADDON_DB:  db_name 
   POSTGRESQL_ADDON_HOST:  host 
@@ -29,8 +20,8 @@ local_db:
 
 
 current_db:
-  RUNNING: docker_database
+  RUNNING: remote_db
 
-
+#  psql 'postgres://mokhlesurr031:lO1XJIuP0Ugw@ep-proud-salad-438084.ap-southeast-1.aws.neon.tech/neondb'
 
 
