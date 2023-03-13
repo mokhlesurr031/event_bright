@@ -1,4 +1,4 @@
-name: Build and Push
+name: Build, Push and Deploy
 
 on:
   push:
@@ -24,6 +24,7 @@ jobs:
 
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
