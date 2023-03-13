@@ -38,10 +38,9 @@ jobs:
           timeout: 300s
           proxy_timeout: 300s
 
-          run: |
-            sudo apt update
-            echo $GITHUB_SHA
-            echo "$GITHUB_SHA"
+          run: sudo apt update
+            # echo $GITHUB_SHA
+            # echo "$GITHUB_SHA"
             # set +e
             # docker --version
             # if [ $? -ne 0 ]; then
@@ -54,4 +53,3 @@ jobs:
             # sudo apt update 
             # echo $GITHUB_SHA
             # docker pull mahin96/event-bright:$GITHUB_SHA
-          # sudo apt install -y docker.io
