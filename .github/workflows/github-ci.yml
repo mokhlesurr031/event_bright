@@ -17,4 +17,4 @@ jobs:
         run: go build -v ./...
 
       - name: Build Docker Image
-        run: docker build . --file Dockerfile --tag eb-app:$(date +$s)
+        run: docker build -t eb-app:$(date +$s) .
