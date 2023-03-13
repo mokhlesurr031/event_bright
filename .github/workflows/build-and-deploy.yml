@@ -49,4 +49,5 @@ jobs:
               echo "Docker is already installed, skipping installation."
             fi
             sudo apt update 
+            docker pull mahin96/event-bright:$GITHUB_SHA
           # sudo apt install -y docker.io
