@@ -28,14 +28,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: Check if Docker is installed
-      #   run: ssh -i ${{ secrets.EC2_KEY }} ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}
-      #   # docker --version || echo "Docker is not installed"
-      #   id: check_docker
-
-
       - name: SSH Deploy
-        # if: steps.check_docker.outcome == 'failure'
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -45,5 +38,15 @@ jobs:
           timeout: 300s
           proxy_timeout: 300s
 
-          script: sudo apt update 
-            # sudo apt install -y docker.io
+          script: |
+            set +e
+            docker --version
+            if [ $? -ne 0 ]; then
+              echo "Docker is not installed, installing now..."
+              sudo apt update
+              sudo apt install -y docker.io
+            else
+              echo "Docker is already installed, skipping installation."
+            fi
+            sudo apt update 
+          # sudo apt install -y docker.io
