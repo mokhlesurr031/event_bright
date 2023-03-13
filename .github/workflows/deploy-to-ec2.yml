@@ -1,0 +1,14 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      -name: Checkout to latest code
+       echo "HELLO"
