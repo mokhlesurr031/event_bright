@@ -43,6 +43,5 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.EC2_PORT }}
 
-          script: |
-            sudo apt update 
+          script: sudo apt update 
             # sudo apt install -y docker.io
