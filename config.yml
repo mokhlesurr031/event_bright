@@ -22,6 +22,4 @@ local_db:
 current_db:
   RUNNING: remote_db
 
-#  psql 'postgres://mokhlesurr031:lO1XJIuP0Ugw@ep-proud-salad-438084.ap-southeast-1.aws.neon.tech/neondb'
-
 

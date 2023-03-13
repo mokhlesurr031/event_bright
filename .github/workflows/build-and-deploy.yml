@@ -28,5 +28,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout to latest code
-        run: echo $GITHUB_SHA
+      - name: Check if Docker is installed
+        run: docker --version || echo "Docker is not installed"
+        id: check_docker
+
+
+      - name: SSH Deploy
+        if: steps.check_docker.outcome == "failure"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+
+          script: |
+            sudo apt update 
+            sudo apt install -y docker.io

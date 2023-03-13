@@ -2,8 +2,9 @@ package config
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
 	"log"
+
+	"github.com/spf13/viper"
 )
 
 type Database struct {
@@ -43,10 +44,10 @@ func loadDB() {
 		viper.AutomaticEnv()
 		db = Database{
 			Name:     viper.GetString("POSTGRESQL_ADDON_DB"),
-			Username: viper.GetString(".POSTGRESQL_ADDON_USER"),
-			Password: viper.GetString(".POSTGRESQL_ADDON_PASSWORD"),
-			Host:     viper.GetString(".POSTGRESQL_ADDON_HOST"),
-			Port:     viper.GetInt(".POSTGRESQL_ADDON_PORT"),
+			Username: viper.GetString("POSTGRESQL_ADDON_USER"),
+			Password: viper.GetString("POSTGRESQL_ADDON_PASSWORD"),
+			Host:     viper.GetString("POSTGRESQL_ADDON_HOST"),
+			Port:     viper.GetInt("POSTGRESQL_ADDON_PORT"),
 		}
 		fmt.Println("DATABASEEEE", db)
 
