@@ -37,7 +37,6 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           timeout: 300s
           proxy_timeout: 300s
-
           run: sudo apt update
             # echo $GITHUB_SHA
             # echo "$GITHUB_SHA"
