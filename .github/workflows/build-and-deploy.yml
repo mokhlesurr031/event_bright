@@ -40,8 +40,9 @@ jobs:
           proxy_timeout: 300s
           debug: true
           script: |
-            docker pull mahin96/event-bright:$GITHUB_SHA
             echo $GITHUB_SHA
+            docker pull mahin96/event-bright:$GITHUB_SHA
+            
             # echo "$GITHUB_SHA"
             # set +e
             # docker --version
