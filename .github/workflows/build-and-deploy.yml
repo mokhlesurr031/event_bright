@@ -38,7 +38,7 @@ jobs:
           timeout: 300s
           proxy_timeout: 300s
 
-          script: |
+          run: |
             # set +e
             # docker --version
             # if [ $? -ne 0 ]; then
