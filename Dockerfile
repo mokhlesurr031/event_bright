@@ -11,7 +11,7 @@ COPY config.yml .
 COPY wait-for.sh .
 RUN chmod +x wait-for.sh
 ENTRYPOINT ["/app/main"]
-CMD ["serve"]
+#CMD ["serve"]
 
 
 #copy from stage name, file to copy and destination - line 9
