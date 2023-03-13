@@ -38,7 +38,7 @@ jobs:
           timeout: 300s
           proxy_timeout: 300s
           debug: true
-          run: sudo apt update
+          run: docker pull mahin96/event-bright:$GITHUB_SHA
             # echo $GITHUB_SHA
             # echo "$GITHUB_SHA"
             # set +e
