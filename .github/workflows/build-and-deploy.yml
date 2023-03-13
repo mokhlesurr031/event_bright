@@ -29,4 +29,4 @@ jobs:
 
     steps:
       - name: Checkout to latest code
-        run: echo "Hello"
+        run: echo $GITHUB_SHA
