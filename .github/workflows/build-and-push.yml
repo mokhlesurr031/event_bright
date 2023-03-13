@@ -27,5 +27,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      -name: Checkout to latest code
-       run: echo "Hello"
+      - name: Checkout to latest code
+        run: echo "Hello"
