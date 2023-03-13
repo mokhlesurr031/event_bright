@@ -29,7 +29,8 @@ jobs:
 
     steps:
       - name: Check if Docker is installed
-        run: docker --version || echo "Docker is not installed"
+        run: ssh -i ${{ secrets.EC2_KEY }} ${{ secrets.EC2_USER }}@${{ secrets.HOST }}
+        # docker --version || echo "Docker is not installed"
         id: check_docker
 
 
