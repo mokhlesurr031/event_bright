@@ -34,7 +34,7 @@ jobs:
 
 
       - name: SSH Deploy
-        if: steps.check_docker.outcome == "failure"
+        if: steps.check_docker.outcome == 'failure'
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
