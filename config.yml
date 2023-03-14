@@ -11,6 +11,13 @@ docker_database:
   POSTGRESQL_ADDON_PASSWORD: secret
 
 
+local_db:
+  POSTGRESQL_ADDON_DB:  neondb 
+  POSTGRESQL_ADDON_HOST:  ep-proud-salad-438084.ap-southeast-1.aws.neon.tech
+  POSTGRESQL_ADDON_PASSWORD:  lO1XJIuP0Ugw 
+  POSTGRESQL_ADDON_PORT:  5432 
+  POSTGRESQL_ADDON_USER:  mokhlesurr031 
+
 remote_db:
   POSTGRESQL_ADDON_DB:  ${{ secrets.POSTGRESQL_ADDON_DB }}
   POSTGRESQL_ADDON_HOST:  ${{ secrets.POSTGRESQL_ADDON_HOST }}
@@ -20,6 +27,8 @@ remote_db:
 
 
 current_db:
-  RUNNING: remote_db
+  RUNNING: local_db
+
+#  psql 'postgres://mokhlesurr031:lO1XJIuP0Ugw@ep-proud-salad-438084.ap-southeast-1.aws.neon.tech/neondb'
 
 
