@@ -39,7 +39,7 @@ jobs:
           timeout: 300s
           proxy_timeout: 300s
           debug: true
-          script: docker pull mahin96/event-bright:1.0.0
+          script: sudo docker pull mahin96/event-bright:1.0.0
             # echo $GITHUB_SHA
             
             
